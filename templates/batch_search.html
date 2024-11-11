@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch Search</title>
+    <link href="/static/Bootstrap/bootstrap.css" rel="stylesheet">
+    <script src="/static/Bootstrap/bootstrap.bundle.js"></script>
+</head>
+<body>
+<h1>Suchen, suchen, suchen, ...</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+        <label for="actual_start_start">Choose a starting datetime:</label>
+        <input
+          type="datetime-local"
+          id="actual_start_start"
+          name="actual_start_start"
+          value="2011-01-01T00:00"/>
+
+        </div>
+        <div class="col">
+            <label for="actual_start_end">Choose an ending datetime:</label>
+        <input
+          type="datetime-local"
+          id="actual_start_end"
+          name="actual_start_end"
+          value="2011-02-01T00:00"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Select Area</p>
+            <select class="form-select" multiple size="6" aria-label="Select area(s)" id="area-select">
+            {% for area in areas %}
+              <option value="{{area.area_id}}">{{area.area}}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <p>Select Product</p>
+            <select class="form-select" multiple size="6" aria-label="Select product(s)" id="product-select">
+            {% for product in products %}
+              <option value="{{product}}">{{product}}</option>
+            {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-1">
+            <button type="button" class="btn btn-primary btn-lg" onclick="buttonPressed();">Gogogo</button>
+        </div>
+    </div>
+</div>
+<script>
+function buttonPressed() {
+    start = encodeURI(document.querySelector('#actual_start_start').value);
+    end = encodeURI(document.querySelector('#actual_start_end').value);
+    areaid = encodeURI(document.querySelector('#area-select').value);
+    product = encodeURI(document.querySelector('#product-select').value);
+
+    const urlParams = new URLSearchParams();
+    urlParams.append('start', start);
+    urlParams.append('end', end);
+    urlParams.append('areaid', areaid);
+    urlParams.append('product', product);
+    location.href = "./batches?" + urlParams.toString();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Batches</title>
+    <link href="/static/Bootstrap/bootstrap.css" rel="stylesheet">
+    <script src="/static/Bootstrap/bootstrap.bundle.js"></script>
+    <link href="/static/DataTables/datatables.min.css" rel="stylesheet">
+    <script src="/static/DataTables/datatables.min.js"></script>
+</head>
+<body>
+<h1>Details just details</h1>
+<div>
+<table id="BatchTable" class="table .table-bordered display">
+    <thead>
+    <tr>
+        <th>PRID</th>
+        <th>Batch</th>
+        <th>Product</th>
+        <th>Planned Start</th>
+        <th>Actual Start</th>
+        <th>Actual End</th>
+        <th>Recipe</th>
+        <th>Recipe Version</th>
+        <th>Area</th>
+        <th>Batch Area</th>
+    <tr>
+    </thead>
+    <tbody>
+<TR>
+    <TD class="c1">{{batch.prid}}</TD>
+    <TD class="c2">{{batch.batch}}</TD>
+    <TD class="c3">{{batch.product}}</TD>
+    <TD class="c4">{{batch.planned_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c5">{{batch.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c7">{{batch.recipe}}</TD>
+    <TD class="c8">{{batch.recipe_version}}</TD>
+    <TD class="c9">{{batch.area_name}}</TD>
+    <TD class="c10">{{batch.barea_name}}</TD>
+</TR></tbody></table></div>
+<div>
+<table id="DetailsTable" class="table .table-bordered display">
+    <thead>
+    <tr>
+        <th>Type</th>
+        <th>Equipment Name</th>
+        <th>Name</th>
+        <th>Number</th>
+        <th>Actual Start</th>
+        <th>Actual End</th>
+        <th>Duration</th>
+        <th>Status</th>
+        <th>Element ID</th>
+    </tr>
+    </thead>
+    <tbody class=".table-group-divider">
+{% for unitp in batch.unit_procedures %}
+<TR class="table-primary has-element-id" id="{{unitp.element_id}}">
+    <td class="s0">Unit Procedure</td>
+    <td class="s1">{{unitp.equipment_name}}</td>
+    <td class="s2">{{unitp.unit_procedure_name}}</td>
+    <td class="s3">{{unitp.unit_procedure_no}}</td>
+    <td class="s4">{{unitp.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    <td class="s5">{{unitp.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    <td class="s6">{{unitp.duration}}</td>
+    <td class="s7">-</td>
+    <td class="s8">{{unitp.element_id}}</td>
+</TR>
+    {% for pha in unitp.phases %}
+    <TR class="table-secondary has-element-id" id="{{pha.element_id}}">
+        <td class="s0">Phase</td>
+        <td class="s1">{{pha.equipment_name}}</td>
+        <td class="s2">{{pha.phase_name}}</td>
+        <td class="s3">{{pha.phase_no}}</td>
+        <td class="s4">{{pha.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+        <td class="s5">{{pha.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+        <td class="s6">{{pha.duration}}</td>
+        <td class="s7">{{pha.phase_status}}</td>
+        <td class="s8">{{pha.element_id}}</td>
+    </TR>
+        {% for spha in pha.subphases %}
+        <TR class="table-info has-element-id" id="{{spha.element_id}}">
+            <td class="s0">SubPhase</td>
+            <td class="s1">{{spha.equipment_name}}</td>
+            <td class="s2">{{spha.subphase_name}}</td>
+            <td class="s3">{{spha.subphase_no}}</td>
+            <td class="s4">{{spha.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+            <td class="s5">{{spha.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+            <td class="s6">{{spha.duration}}</td>
+            <td class="s7">{{spha.phase_status}}</td>
+            <td class="s8">{{spha.element_id}}</td>
+        </TR>
+
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+    </tbody>
+</table></div>
+<script>
+    const param_map = new Map();
+
+    {% for param in parameters %}
+    param_map.set('{{param[0].element_id}}',
+        `<table class="table table-striped-columns">
+            <thead>
+                <th>Parameter</th>
+                <th>Preset Recipe</th>
+                <th>Preset Batch</th>
+                <th>Actual Value</th>
+                <th>Unit</th>
+            </thead>
+        <tbody>
+        ` +
+        {% for pa in param %}
+        `<tr>
+            <TD>{{pa.parameter_name}}</TD>
+            <TD>{{pa.preset_val_recipe}}</TD>
+            <TD>{{pa.preset_val_batch}}</TD>
+            <TD>{{pa.actual_val}}</TD>
+            <TD>{{pa.uom}}</TD>
+        </tr>` +
+           {% endfor %}
+        '</tbody></table>');
+    {% endfor %}
+</script>
+<script>let tableDetails = new DataTable('#DetailsTable',{
+    pageLength: 200,
+    columnDefs: [{orderData: [4, 8], targets: 0,},
+                 {visible: false, targets: 8}],
+    fixedHeader: true,
+    colReorder: true,
+    select: true,
+    layout: {
+        topStart: 'searchPanes',
+        bottomStart: 'searchBuilder'
+    }});
+
+    tableDetails.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        if (!this.node().classList.contains('has-element-id'))
+        {
+            console.log(this.node())
+            return;
+        }
+
+        ch = param_map.get(this.node().id);
+
+        if (typeof ch !== 'undefined')
+        {
+            this.child(ch).show();
+        }
+    });
+</script>
+</body>
+</html>

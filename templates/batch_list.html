@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Batches</title>
+    <link href="/static/Bootstrap/bootstrap.css" rel="stylesheet">
+    <script src="/static/Bootstrap/bootstrap.bundle.js"></script>
+    <link href="static/DataTables/datatables.min.css" rel="stylesheet">
+    <script src="static/DataTables/datatables.min.js"></script>
+</head>
+<body>
+<h1>Batches ... so many batches</h1>
+<table id="myTable" class="table .table-bordered display">
+    <thead>
+    <td>PRID</td>
+    <td>Batch</td>
+    <td>Product</td>
+    <td>Planned Start</td>
+    <td>Actual Start</td>
+    <td>Actual End</td>
+    <td>Recipe</td>
+    <td>Recipe Version</td>
+    <td>Area</td>
+    <td>Batch Area</td>
+    </thead>
+{% for batch in batches %}
+<TR>
+    <TD class="c1"><a href="/batch/detail/{{batch.prid}}">{{batch.prid}}</a></TD>
+    <TD class="c2">{{batch.batch}}</TD>
+    <TD class="c3">{{batch.product}}</TD>
+    <TD class="c4">{{batch.planned_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c5">{{batch.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c7">{{batch.recipe}}</TD>
+    <TD class="c8">{{batch.recipe_version}}</TD>
+    <TD class="c9">{{batch.area_name}}</TD>
+    <TD class="c10">{{batch.barea_name}}</TD>
+</TR>
+{% endfor %}
+</table>
+<script>let table = new DataTable('#myTable', {
+    pageLength: 200,
+    columnDefs: [{orderData: 5, targets: 0,}],
+    fixedHeader: true,
+    colReorder: true,
+    select: true,
+    layout: {
+        topStart: 'searchPanes',
+        bottomStart: 'searchBuilder'
+    }});</script>
+</body>
+</html>
