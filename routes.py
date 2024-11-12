@@ -17,7 +17,7 @@
 
 from flask import Flask, render_template, request
 import threading
-from datetime import datetime
+from datetime import datetime, timedelta
 import botec_classes
 from botec_classes import get_batch_elements, get_batch_all_elements, get_areas, get_products
 
@@ -39,7 +39,10 @@ def hello_test():
     with sql_lock:
         area_list = get_areas()
         product_list = get_products()
-        html_str = render_template("batch_search.html", areas=area_list, products=product_list)
+        start_dt = (datetime.now() + timedelta(days=-10)).isoformat(timespec="minutes")
+        end_dt = datetime.now().isoformat(timespec="minutes")
+        html_str = render_template("batch_search.html", areas=area_list, products=product_list
+                                   , start=start_dt, end=end_dt)
         # print(html_str)
         return html_str
 
