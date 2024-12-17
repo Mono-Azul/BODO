@@ -27,7 +27,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <script src="static/DataTables/datatables.min.js"></script>
 </head>
 <body>
-<h1>Batches ... so many batches</h1>
+<div class="container text-center">
+  <div class="row">
+    <div class="col-sm-8"><h1>Batches</h1></div>
+    <div class="col-sm-4"><a class="btn btn-primary" href="javascript:window.history.back();" role="button">Back</a></div>
+  </div>
+</div>
 <table id="myTable" class="table .table-bordered display">
     <thead>
     <td>PRID</td>
@@ -48,7 +53,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <TD class="c3">{{batch.product}}</TD>
     <TD class="c4">{{batch.planned_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
     <TD class="c5">{{batch.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
-    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S') if batch.actual_end is not none else '-'}}</TD>
     <TD class="c7">{{batch.recipe}}</TD>
     <TD class="c8">{{batch.recipe_version}}</TD>
     <TD class="c9">{{batch.area_name}}</TD>

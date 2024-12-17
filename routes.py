@@ -29,10 +29,10 @@ index_lock = threading.Lock()
 @fapp.route("/index.html")
 def index():
     with index_lock:
-        return """<h1>Hello, Friends of Botox!</h1>
-        <p><a href="./batch-search">Go to search</a>
-        </p><img src="./static/unicorn.jpg">"""
-
+        return render_template("start_screen.html")
+        # return """<h1>Hello, Friends of Botox!</h1>
+        # <p><a href="./batch-search">Go to search</a>
+        # </p><img src="./static/unicorn.jpg">"""
 
 @fapp.route("/batch-search")
 def hello_test():

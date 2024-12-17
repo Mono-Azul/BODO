@@ -109,7 +109,7 @@ class Batch:
     phases_loaded: bool = False
     subphases_loaded: bool = False
 
-sqlcmd_batch = """SELECT TOP 1000 ba.PRID
+sqlcmd_batch = """SELECT ba.PRID
                     ,ba.Batch
                     ,ISNULL(t1.LANGUAGE_TEXT, PRODUCT) AS Product
                     ,ba.Planned_Start
@@ -298,8 +298,8 @@ def get_batches(area_id: int = None, product: str = None, start: datetime = None
         final_sqlcmd = final_sqlcmd + """ AND ba.Actual_Start < %s"""
         param_tuple = param_tuple + (end,)
 
-    print(final_sqlcmd)
-    print(param_tuple)
+    # print(final_sqlcmd)
+    # print(param_tuple)
 
     cursor = conn.cursor()
     cursor.execute(final_sqlcmd, param_tuple)

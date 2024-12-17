@@ -33,7 +33,7 @@ db_con_app.exec()
 
 webapp = QApplication(sys.argv)
 window = QWidget()
-window.setWindowTitle("BODE")
+window.setWindowTitle("BODO")
 layout = QVBoxLayout()
 
 view = QWebEngineView()
