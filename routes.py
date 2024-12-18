@@ -30,12 +30,9 @@ index_lock = threading.Lock()
 def index():
     with index_lock:
         return render_template("start_screen.html")
-        # return """<h1>Hello, Friends of Botox!</h1>
-        # <p><a href="./batch-search">Go to search</a>
-        # </p><img src="./static/unicorn.jpg">"""
 
 @fapp.route("/batch-search")
-def hello_test():
+def batch_search():
     with sql_lock:
         area_list = get_areas()
         product_list = get_products()
