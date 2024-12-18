@@ -56,7 +56,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <TD class="c3">{{batch.product}}</TD>
     <TD class="c4">{{batch.planned_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
     <TD class="c5">{{batch.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
-    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</TD>
+    <TD class="c6">{{batch.actual_end.strftime('%Y-%m-%d %H:%M:%S') if batch.actual_end is not none else '-'}}</TD>
     <TD class="c7">{{batch.recipe}}</TD>
     <TD class="c8">{{batch.recipe_version}}</TD>
     <TD class="c9">{{batch.area_name}}</TD>
@@ -85,7 +85,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <td class="s2">{{unitp.unit_procedure_name}}</td>
     <td class="s3">{{unitp.unit_procedure_no}}</td>
     <td class="s4">{{unitp.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-    <td class="s5">{{unitp.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    <td class="s5">{{unitp.actual_end.strftime('%Y-%m-%d %H:%M:%S') if unitp.actual_end is not none else '-'}}</td>
     <td class="s6">{{unitp.duration}}</td>
     <td class="s7">-</td>
     <td class="s8">{{unitp.element_id}}</td>
@@ -97,7 +97,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <td class="s2">{{pha.phase_name}}</td>
         <td class="s3">{{pha.phase_no}}</td>
         <td class="s4">{{pha.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-        <td class="s5">{{pha.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+        <td class="s5">{{pha.actual_end.strftime('%Y-%m-%d %H:%M:%S') if pha.actual_end is not none else '-'}}</td>
         <td class="s6">{{pha.duration}}</td>
         <td class="s7">{{pha.phase_status}}</td>
         <td class="s8">{{pha.element_id}}</td>
@@ -109,7 +109,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <td class="s2">{{spha.subphase_name}}</td>
             <td class="s3">{{spha.subphase_no}}</td>
             <td class="s4">{{spha.actual_start.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-            <td class="s5">{{spha.actual_end.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+            <td class="s5">{{spha.actual_end.strftime('%Y-%m-%d %H:%M:%S') if spha.actual_end is not none else '-'}}</td>
             <td class="s6">{{spha.duration}}</td>
             <td class="s7">{{spha.phase_status}}</td>
             <td class="s8">{{spha.element_id}}</td>

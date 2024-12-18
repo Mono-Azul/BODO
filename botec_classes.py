@@ -16,11 +16,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from datetime import datetime
+from urllib.parse import unquote
 
 import pymssql
 from dataclasses import dataclass
-
-from setuptools.package_index import parse_requirement_arg
 
 conn = None
 
@@ -284,11 +283,11 @@ def get_batches(area_id: int = None, product: str = None, start: datetime = None
 
     if area_id != None:
         final_sqlcmd = final_sqlcmd + """ AND ba.Area_ID = %s"""
-        param_tuple = param_tuple + (area_id,)
+        param_tuple = param_tuple + (unquote(area_id),)
 
     if product != None:
         final_sqlcmd = final_sqlcmd + """ AND ISNULL(t1.LANGUAGE_TEXT, PRODUCT) = %s"""
-        param_tuple = param_tuple + (product,)
+        param_tuple = param_tuple + (unquote(product),)
 
     if start != None:
         final_sqlcmd = final_sqlcmd + """ AND ba.Actual_Start >= %s"""
